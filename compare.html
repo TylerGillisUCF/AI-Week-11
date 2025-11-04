@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Writings - Historical Writings Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="particleCanvas" class="particle-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>⚖️ Compare Historical Writings</h1>
+            <div class="header-controls">
+                <a href="index.html" class="btn btn-small">Home</a>
+                <a href="game.html" class="btn btn-small">Game</a>
+                <a href="collection.html" class="btn btn-small">Collection</a>
+            </div>
+        </header>
+
+        <main class="compare-page">
+            <div class="compare-intro">
+                <p>Select two writings from your collection to compare their key concepts, historical context, and philosophical perspectives side-by-side.</p>
+            </div>
+
+            <!-- Selection Area -->
+            <div class="compare-selection">
+                <div class="selection-panel">
+                    <h3>First Writing</h3>
+                    <select id="writing1Select" class="writing-select">
+                        <option value="">Select a writing...</option>
+                    </select>
+                    <div id="writing1Preview" class="writing-preview"></div>
+                </div>
+
+                <div class="selection-panel">
+                    <h3>Second Writing</h3>
+                    <select id="writing2Select" class="writing-select">
+                        <option value="">Select a writing...</option>
+                    </select>
+                    <div id="writing2Preview" class="writing-preview"></div>
+                </div>
+            </div>
+
+            <div class="compare-button-container">
+                <button id="compareButton" class="btn btn-primary btn-large" disabled>Compare Writings</button>
+            </div>
+
+            <!-- Comparison Results -->
+            <div id="comparisonResults" class="comparison-results" style="display: none;">
+                <div class="comparison-header">
+                    <h2>Comparison Results</h2>
+                    <button id="clearComparison" class="btn btn-small btn-secondary">Clear</button>
+                </div>
+
+                <!-- Side by Side Info -->
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h3 id="compare1Title"></h3>
+                        <div class="comparison-meta">
+                            <span id="compare1Author"></span>
+                            <span id="compare1Year"></span>
+                        </div>
+                        <div class="comparison-section">
+                            <h4>Summary</h4>
+                            <p id="compare1Summary"></p>
+                        </div>
+                        <div class="comparison-section">
+                            <h4>Key Concepts</h4>
+                            <ul id="compare1Concepts"></ul>
+                        </div>
+                    </div>
+
+                    <div class="comparison-card">
+                        <h3 id="compare2Title"></h3>
+                        <div class="comparison-meta">
+                            <span id="compare2Author"></span>
+                            <span id="compare2Year"></span>
+                        </div>
+                        <div class="comparison-section">
+                            <h4>Summary</h4>
+                            <p id="compare2Summary"></p>
+                        </div>
+                        <div class="comparison-section">
+                            <h4>Key Concepts</h4>
+                            <ul id="compare2Concepts"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Section -->
+                <div class="analysis-section">
+                    <h3>📊 Comparative Analysis</h3>
+
+                    <div class="analysis-card">
+                        <h4>⏰ Historical Proximity</h4>
+                        <div id="historicalProximity"></div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h4>🔗 Shared Concepts</h4>
+                        <div id="sharedConcepts"></div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h4>⚡ Contrasting Philosophies</h4>
+                        <div id="contrastingPhilosophies"></div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h4>🌍 Cultural Context</h4>
+                        <div id="culturalContext"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Collection Message -->
+            <div id="noCompareCollection" class="no-collection">
+                <div class="empty-state">
+                    <div class="empty-icon">⚖️</div>
+                    <h2>Collect Writings to Compare</h2>
+                    <p>You need to collect at least 2 writings to use the compare feature!</p>
+                    <a href="game.html" class="btn btn-primary">Start Collecting</a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Historical Writings Adventure | Educational Gaming Experience</p>
+        </footer>
+    </div>
+
+    <script src="historical-data.js"></script>
+    <script src="particles.js"></script>
+    <script src="compare.js"></script>
+</body>
+</html>

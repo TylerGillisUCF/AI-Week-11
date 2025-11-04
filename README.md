@@ -38,6 +38,25 @@ Historical Writings Adventure combines gaming with education, allowing players t
 - Detailed view for each collected writing
 - Track your progress with statistics
 
+### ⚖️ Compare Mode
+- **Side-by-Side Comparison**: Select two collected writings to compare
+- **Historical Proximity Analysis**: See how close in time the texts were written
+- **Shared Concepts**: Identify common themes and ideas
+- **Contrasting Philosophies**: Discover opposing viewpoints and approaches
+- **Cultural Context**: Understand the cultural backgrounds of each work
+- **Interactive Timeline**: Visual representation of historical distance
+
+### 👻 Ghost Challenge
+- **Enemy Encounters**: A ghost appears in cave locations to add challenge
+- **Chase Mechanics**: The ghost pursues you while collecting items
+- **Escape Strategy**: Ghost moves at half your speed - plan your route!
+- **Consequences**: If caught, you're sent back to the field and must retry
+- **Location Lock**: Return to the same location until you collect all 5 items successfully
+
+### ✨ Visual Enhancements
+- **Particle Effects**: Animated background particles on all pages
+- **Dynamic Atmosphere**: Floating golden particles create an immersive experience
+
 ## Project Structure
 
 ```
@@ -45,9 +64,12 @@ AI-Week-11/
 ├── index.html              # Landing page
 ├── game.html               # Main game interface
 ├── collection.html         # Collection viewer
+├── compare.html            # Compare Mode page
 ├── styles.css              # All styling (pixel-art aesthetic)
-├── game.js                 # Game logic and mechanics
+├── game.js                 # Game logic and mechanics (with ghost enemy)
 ├── collection.js           # Collection page functionality
+├── compare.js              # Comparison logic and analysis
+├── particles.js            # Particle effect system
 ├── historical-data.js      # Database of 50 historical writings
 ├── README.md               # This file
 └── CLAUDE.md              # AI assistant guidance
@@ -63,31 +85,40 @@ AI-Week-11/
 ### Gameplay Loop
 1. **Explore**: Start in the open field with 50 empty pedestals
 2. **Enter Cave**: Walk to the cave entrance (top center) and press E
-3. **Collect Items**: You'll be transported to a random location with 5 historical writings
-4. **Find Writings**: Look for books in chests, on tables, picture frames, and chairs
-5. **Pickup**: Approach items and press E to collect (max 5 per trip)
-6. **Return**: Exit through the cave door to return to the field
-7. **Place on Pedestals**: Approach empty pedestals and press E to place writings
-8. **Learn**: Read the summary that appears for each writing
-9. **Repeat**: Return to the cave to collect more writings until all 50 are found
+3. **Beware the Ghost**: A ghost spawns at the opposite end and chases you!
+4. **Collect Items**: Find and collect 5 historical writings while avoiding the ghost
+5. **Find Writings**: Look for books in chests, on tables, picture frames, and chairs
+6. **Pickup**: Approach items and press E to collect (max 5 per trip)
+7. **Escape**: Outrun the ghost and exit through the cave door to return to the field
+8. **Place on Pedestals**: Approach empty pedestals and press E to place writings
+9. **Learn**: Read the summary that appears for each writing
+10. **Compare**: Use Compare Mode to analyze relationships between writings
+11. **Repeat**: Return to the cave to collect more writings until all 50 are found
 
 ### Controls
 - **Movement**: Arrow Keys or WASD
 - **Interact**: E key
 - **Close Popups**: ESC key or click the X button
 
-### Collection Page
+### Collection & Compare
 - Click "Collection" from any page to view your progress
 - Filter writings by location
 - Click "View Details" on collected writings for in-depth information
 - Track statistics: total collected and breakdown by location
+- Use "Compare Writings" to analyze two texts side-by-side
+- Discover historical connections and philosophical contrasts
 
 ## Technical Details
 
+### Setup Notes
+- **Optional Header Image**: Add a file named `weekelevenpic.png` to the project root to display a custom header image on the home page
+- The image will automatically display if present, or gracefully hide if not available
+- Recommended image dimensions: 1400x300 pixels or similar aspect ratio
+
 ### Technologies Used
 - **HTML5**: Structure and Canvas for game rendering
-- **CSS3**: Pixel-art styling and responsive design
-- **Vanilla JavaScript**: Game logic, no external dependencies
+- **CSS3**: Pixel-art styling, responsive design, and particle effects
+- **Vanilla JavaScript**: Game logic, AI (ghost enemy), comparison algorithms, no external dependencies
 - **LocalStorage**: Automatic save/load functionality
 
 ### Browser Compatibility
