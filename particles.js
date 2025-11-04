@@ -89,7 +89,7 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         new ParticleSystem('particleCanvas', {
             particleCount: 70,
-            particleColor: 'rgba(212, 165, 116, 0.35)',
+            particleColor: 'rgba(244, 164, 96, 0.3)',
             particleSize: 3,
             speed: 0.25
         });
@@ -97,7 +97,7 @@ if (document.readyState === 'loading') {
 } else {
     new ParticleSystem('particleCanvas', {
         particleCount: 70,
-        particleColor: 'rgba(212, 165, 116, 0.35)',
+        particleColor: 'rgba(244, 164, 96, 0.3)',
         particleSize: 3,
         speed: 0.25
     });
