@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Collection - Historical Writings Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Your Collection</h1>
+            <div class="header-controls">
+                <a href="index.html" class="btn btn-small">Home</a>
+                <a href="game.html" class="btn btn-small btn-primary">Back to Game</a>
+            </div>
+        </header>
+
+        <main class="collection-page">
+            <div class="collection-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="collectedCount">0</div>
+                    <div class="stat-label">Writings Collected</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="templeCount">0</div>
+                    <div class="stat-label">From Greek Temple</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="ballroomCount">0</div>
+                    <div class="stat-label">From Ballroom</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="churchCount">0</div>
+                    <div class="stat-label">From Church</div>
+                </div>
+            </div>
+
+            <div class="collection-filters">
+                <button class="filter-btn active" data-filter="all">All (50)</button>
+                <button class="filter-btn" data-filter="temple">Greek Temple (17)</button>
+                <button class="filter-btn" data-filter="ballroom">Ballroom (17)</button>
+                <button class="filter-btn" data-filter="church">Church (16)</button>
+            </div>
+
+            <div id="collectionGrid" class="collection-grid">
+                <!-- Items will be dynamically added here -->
+            </div>
+
+            <div id="noCollection" class="no-collection">
+                <div class="empty-state">
+                    <div class="empty-icon">📜</div>
+                    <h2>No Writings Collected Yet</h2>
+                    <p>Start your adventure to discover 50 influential historical texts!</p>
+                    <a href="game.html" class="btn btn-primary">Start Collecting</a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Historical Writings Adventure | Educational Gaming Experience</p>
+        </footer>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="collectionDetailModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <div class="modal-meta">
+                    <span id="modalAuthor"></span>
+                    <span id="modalYear"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Summary</h3>
+                    <p id="modalSummary"></p>
+                </div>
+                <div class="modal-section">
+                    <h3>Description</h3>
+                    <p id="modalDescription"></p>
+                </div>
+                <div class="modal-section">
+                    <h3>Key Concepts</h3>
+                    <ul id="modalConcepts"></ul>
+                </div>
+                <div class="modal-section">
+                    <h3>Historical Significance</h3>
+                    <p id="modalSignificance"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="historical-data.js"></script>
+    <script src="collection.js"></script>
+</body>
+</html>
