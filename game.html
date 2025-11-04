@@ -7,12 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="game-body">
+    <canvas id="particleCanvas" class="particle-canvas"></canvas>
+
     <div class="game-container">
         <div class="game-header">
             <h1>📜 Historical Writings Adventure</h1>
             <div class="game-controls">
                 <a href="index.html" class="btn btn-small">Home</a>
                 <a href="collection.html" class="btn btn-small">Collection</a>
+                <a href="compare.html" class="btn btn-small">Compare</a>
                 <button id="resetGame" class="btn btn-small btn-danger">Reset Progress</button>
             </div>
         </div>
@@ -105,6 +108,7 @@
     </div>
 
     <script src="historical-data.js"></script>
+    <script src="particles.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

@@ -5,6 +5,8 @@ const CONFIG = {
     TILE_SIZE: 32,
     PLAYER_SIZE: 24,
     PLAYER_SPEED: 3,
+    GHOST_SPEED: 1.5, // Half of player speed
+    GHOST_SIZE: 30,
     INTERACTION_DISTANCE: 40
 };
 
@@ -13,15 +15,24 @@ const gameState = {
     currentScreen: 'character',
     selectedCharacter: null,
     currentLocation: 'field',
+    persistedLocation: null, // Used when caught by ghost
     player: {
         x: CONFIG.CANVAS_WIDTH / 2,
         y: CONFIG.CANVAS_HEIGHT / 2,
         direction: 'down'
     },
+    ghost: {
+        active: false,
+        x: 0,
+        y: 0,
+        targetX: 0,
+        targetY: 0
+    },
     inventory: [],
     pedestals: [],
     collectedWritings: [],
     locationItems: [],
+    itemsCollectedThisVisit: 0,
     keys: {},
     lastInteractionTime: 0
 };
@@ -256,26 +267,44 @@ function findNearbyItem() {
 
 // Enter cave
 function enterCave() {
-    // Randomly select a location
-    const locations = ['temple', 'ballroom', 'church'];
-    const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+    // Use persisted location if available, otherwise randomly select
+    let selectedLocation;
+    if (gameState.persistedLocation) {
+        selectedLocation = gameState.persistedLocation;
+    } else {
+        const locations = ['temple', 'ballroom', 'church'];
+        selectedLocation = locations[Math.floor(Math.random() * locations.length)];
+    }
 
-    gameState.currentLocation = randomLocation;
+    gameState.currentLocation = selectedLocation;
     gameState.player.x = CONFIG.CANVAS_WIDTH / 2;
     gameState.player.y = CONFIG.CANVAS_HEIGHT - 100;
+    gameState.itemsCollectedThisVisit = 0;
 
     // Generate items for this location
-    generateLocationItems(randomLocation);
+    generateLocationItems(selectedLocation);
+
+    // Spawn ghost at opposite end of the room
+    spawnGhost();
 
     updateLocationIndicator();
 }
 
 // Exit cave
 function exitCave() {
+    // Deactivate ghost
+    gameState.ghost.active = false;
+
+    // Clear persisted location if player collected all items successfully
+    if (gameState.itemsCollectedThisVisit >= 5) {
+        gameState.persistedLocation = null;
+    }
+
     gameState.currentLocation = 'field';
     gameState.player.x = CONFIG.CANVAS_WIDTH / 2;
     gameState.player.y = 150;
     gameState.locationItems = [];
+    gameState.itemsCollectedThisVisit = 0;
     updateLocationIndicator();
 }
 
@@ -346,6 +375,7 @@ function pickupItem(item) {
 
     item.collected = true;
     gameState.inventory.push(item.writingId);
+    gameState.itemsCollectedThisVisit++;
     updateInventoryCount();
     saveGame();
 }
@@ -427,6 +457,7 @@ function render() {
         renderLocation(gameState.currentLocation);
     }
 
+    renderGhost();
     renderPlayer();
 }
 
@@ -732,9 +763,117 @@ function renderPlayer() {
     }
 }
 
+// Spawn ghost at opposite end of room
+function spawnGhost() {
+    gameState.ghost.active = true;
+    // Spawn ghost at opposite end from player (top of room)
+    gameState.ghost.x = CONFIG.CANVAS_WIDTH / 2;
+    gameState.ghost.y = 100;
+}
+
+// Update ghost position
+function updateGhost() {
+    if (!gameState.ghost.active || gameState.currentLocation === 'field') {
+        return;
+    }
+
+    // Calculate direction toward player
+    const dx = gameState.player.x - gameState.ghost.x;
+    const dy = gameState.player.y - gameState.ghost.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Normalize and apply speed
+    if (distance > 5) {
+        const moveX = (dx / distance) * CONFIG.GHOST_SPEED;
+        const moveY = (dy / distance) * CONFIG.GHOST_SPEED;
+
+        gameState.ghost.x += moveX;
+        gameState.ghost.y += moveY;
+    }
+}
+
+// Check collision between player and ghost
+function checkGhostCollision() {
+    if (!gameState.ghost.active || gameState.currentLocation === 'field') {
+        return;
+    }
+
+    const dx = gameState.player.x - gameState.ghost.x;
+    const dy = gameState.player.y - gameState.ghost.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    const collisionDistance = (CONFIG.PLAYER_SIZE + CONFIG.GHOST_SIZE) / 2;
+
+    if (distance < collisionDistance) {
+        handleGhostCaught();
+    }
+}
+
+// Handle player being caught by ghost
+function handleGhostCaught() {
+    // Set persisted location so player returns to same location
+    gameState.persistedLocation = gameState.currentLocation;
+
+    // Return items to location (remove from inventory)
+    gameState.inventory = [];
+    gameState.itemsCollectedThisVisit = 0;
+
+    // Deactivate ghost
+    gameState.ghost.active = false;
+
+    // Return player to field
+    gameState.currentLocation = 'field';
+    gameState.player.x = CONFIG.CANVAS_WIDTH / 2;
+    gameState.player.y = 150;
+    gameState.locationItems = [];
+
+    updateInventoryCount();
+    updateLocationIndicator();
+
+    // Show message
+    alert('The ghost caught you! You\'ve been sent back to the field. Return to the same location to try again!');
+}
+
+// Render ghost
+function renderGhost() {
+    if (!gameState.ghost.active || gameState.currentLocation === 'field') {
+        return;
+    }
+
+    // Ghost body (semi-transparent white/gray)
+    ctx.fillStyle = 'rgba(200, 200, 220, 0.7)';
+    ctx.beginPath();
+    ctx.arc(gameState.ghost.x, gameState.ghost.y, CONFIG.GHOST_SIZE / 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Ghost tail effect
+    ctx.fillStyle = 'rgba(180, 180, 200, 0.5)';
+    ctx.beginPath();
+    ctx.ellipse(gameState.ghost.x, gameState.ghost.y + 10, CONFIG.GHOST_SIZE / 2 - 5, CONFIG.GHOST_SIZE / 2 + 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Eyes
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    ctx.arc(gameState.ghost.x - 8, gameState.ghost.y - 3, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(gameState.ghost.x + 8, gameState.ghost.y - 3, 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Spooky aura
+    ctx.strokeStyle = 'rgba(150, 150, 200, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(gameState.ghost.x, gameState.ghost.y, CONFIG.GHOST_SIZE / 2 + 5, 0, Math.PI * 2);
+    ctx.stroke();
+}
+
 // Game loop
 function gameLoop() {
     updatePlayer();
+    updateGhost();
+    checkGhostCollision();
     render();
     requestAnimationFrame(gameLoop);
 }
