@@ -88,17 +88,17 @@ class ParticleSystem {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         new ParticleSystem('particleCanvas', {
-            particleCount: 60,
-            particleColor: 'rgba(255, 215, 0, 0.4)',
+            particleCount: 70,
+            particleColor: 'rgba(212, 165, 116, 0.35)',
             particleSize: 3,
-            speed: 0.3
+            speed: 0.25
         });
     });
 } else {
     new ParticleSystem('particleCanvas', {
-        particleCount: 60,
-        particleColor: 'rgba(255, 215, 0, 0.4)',
+        particleCount: 70,
+        particleColor: 'rgba(212, 165, 116, 0.35)',
         particleSize: 3,
-        speed: 0.3
+        speed: 0.25
     });
 }
